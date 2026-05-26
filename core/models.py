@@ -25,3 +25,4 @@ class ValidationError(models.Model):
     session = models.ForeignKey(SimulationSession, on_delete=models.CASCADE)
     file_name = models.CharField(max_length=255, db_index=True)
     error_details = models.TextField(db_index=True)
+    raw_data = models.TextField(db_index=True)

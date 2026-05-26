@@ -10,3 +10,5 @@ ind-project-venv/
 
 .vscode/
 .idea/
+
+test_data/
