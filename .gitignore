@@ -12,3 +12,7 @@ ind-project-venv/
 .idea/
 
 test_data/
+
+check_mat.py
+verify_signals.py
+2000_0_0_Wiatr20_Wyrz40.mat
