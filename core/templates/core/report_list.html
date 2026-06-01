@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Status Importów</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Raporty z sesji importu danych</h2>
+        <a href="/" class="btn btn-outline-primary">Wróc do importu</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nazwa Pliku</th>
+                        <th>Data Importu</th>
+                        <th>Wczytane Punkty</th>
+                        <th>Odrzucone Błędy</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in sessions %}
+                    <tr>
+                        <td class="fw-bold">#{{ session.id }}</td>
+                        <td>{{ session.source_path }}</td>
+                        <td>{{ session.created_at|date:"d M Y, H:i" }}</td>
+                        <td class="text-success fw-bold">{{ session.points_count }}</td>
+                        
+                        {% if session.errors_count > 0 %}
+                            <td class="text-danger fw-bold">{{ session.errors_count }}</td>
+                        {% else %}
+                            <td class="text-muted">0</td>
+                        {% endif %}
+                        
+                        <td>
+                            <a href="{% url 'core:report_detail' session.id %}" class="btn btn-sm btn-primary">
+                                Pokaż Statystyki
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="text-center py-4">Brak danych w bazie.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

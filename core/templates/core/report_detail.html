@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Statystyki: {{ session.file_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Analiza sesji: <span class="text-primary">{{ session.file_name }}</span></h2>
+        <a href="{% url 'core:report_list' %}" class="btn btn-secondary">Wróć do listy</a>
+    </div>
+
+    <div class="alert alert-info shadow-sm">
+        <strong>Czas trwania symulacji:</strong> {{ stats.total_time|floatformat:4 }} s &nbsp;|&nbsp; 
+        <strong>Przeanalizowanych punktów:</strong> {{ stats.total_points }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-danger mb-4">
+                <div class="card-header bg-danger text-white fw-bold">Oś X - Odchylenia</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">Średnia: <span>{{ stats.x_avg|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between">Minimum: <span>{{ stats.x_min|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between">Maksimum: <span>{{ stats.x_max|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between text-muted">Suma całk.: <span>{{ stats.x_sum|floatformat:2 }}</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-success mb-4">
+                <div class="card-header bg-success text-white fw-bold">Oś Y - Odchylenia</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">Średnia: <span>{{ stats.y_avg|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between">Minimum: <span>{{ stats.y_min|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between">Maksimum: <span>{{ stats.y_max|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between text-muted">Suma całk.: <span>{{ stats.y_sum|floatformat:2 }}</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-primary mb-4">
+                <div class="card-header bg-primary text-white fw-bold">Oś Z - Wysokość</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">Średnia: <span>{{ stats.z_avg|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between">Minimum: <span>{{ stats.z_min|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between">Maksimum: <span>{{ stats.z_max|floatformat:4 }}</span></li>
+                    <li class="list-group-item d-flex justify-content-between text-muted">Suma całk.: <span>{{ stats.z_sum|floatformat:2 }}</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
