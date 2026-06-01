@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    env_file:
+      - .env  # PostgreSQL sam znajdzie tu POSTGRES_DB, USER i PASSWORD
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env  # Django znajdzie tu wszystkie swoje zmienne i zmienne Admina
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build: .
+    command: celery -A file_to_r_database_app worker --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env  # Celery też potrzebuje dostępu do tych samych zmiennych co Django
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:

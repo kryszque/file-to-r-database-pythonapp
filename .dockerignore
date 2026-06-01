@@ -1,0 +1,7 @@
+ind-project-venv/
+venv/
+__pycache__/
+*.pyc
+*.mat
+.git/
+.env

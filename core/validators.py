@@ -10,23 +10,20 @@ class TrajectoryRecord(BaseModel):
 
     @model_validator(mode='after')
     def check_physics(self):
-        # Sprawdzenie osi X, Y, Z
+        # sprawdzenie osi X Y Z
         for val, axis in [(self.x, 'X'), (self.y, 'Y'), (self.z, 'Z')]:
             if math.isnan(val):
                 raise ValueError(f"Brak danych (NaN) w osi {axis}")
             if abs(val) > 1e6:
                 raise ValueError(f"Anomalia fizyczna: oś {axis} = {val} (przekroczono limit 1e6)")
         
-        # Sprawdzenie czasu
+        # sprawdzenie czasu
         if math.isnan(self.time) or self.time < 0:
             raise ValueError(f"Nieprawidłowy czas symulacji: {self.time}")
             
         return self
 
 def validate_dataframe(df):
-    """
-    Przepuszcza DataFrame przez model Pydantic i rozdziela na poprawne/błędy.
-    """
     valid_rows = []
     invalid_rows = []
 
@@ -39,7 +36,7 @@ def validate_dataframe(df):
             record = TrajectoryRecord(**row_dict)
             valid_rows.append(record.model_dump())
         except ValidationError as e:
-            # Wyciąganie czytelnej wiadomości o błędzie
+            # czytelna wiadomosc o bledzie
             err_msg = e.errors()[0]['msg'] if 'msg' in e.errors()[0] else str(e)
             invalid_rows.append({
                 'czas': row_dict.get('time', 0.0),

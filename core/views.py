@@ -11,11 +11,9 @@ def index(request):
         
         fs = FileSystemStorage()
         
-        # 1. Sprawdzamy, czy plik o takiej nazwie już fizycznie istnieje na dysku
         if fs.exists(uploaded_file.name):
-            fs.delete(uploaded_file.name) # 2. Jeśli tak, usuwamy starą wersję
+            fs.delete(uploaded_file.name)
             
-        # 3. Zapisujemy nowy plik (teraz nazwa zawsze będzie czysta!)
         filename = fs.save(uploaded_file.name, uploaded_file)
         file_path = fs.path(filename)
         
@@ -23,12 +21,8 @@ def index(request):
         
         messages.success(request, f"Plik '{filename}' został przyjęty. Trwa asynchroniczny import w tle.")
         
-        # --- KLUCZOWA ZMIANA ---
-        # Zamiast renderować stronę z "bagażem" formularza, zmuszamy przeglądarkę 
-        # do załadowania strony od nowa jako czyste wejście.
         return redirect('/') 
 
-    # Wyciągamy statystyki
     context = {
         'total_sessions': SimulationSession.objects.count(),
         'total_points': TrajectoryPoint.objects.count(),
